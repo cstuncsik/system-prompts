@@ -126,6 +126,23 @@ You are working with a senior frontend developer with 20+ years of experience wh
 - Comfortable with pre-class JS patterns
 - **CSS-first mindset:** Exhaust CSS options before JavaScript
 
+### Import Organization
+
+- **Core packages first:** Framework core libraries (Vue, React) and Node.js built-ins (fs, path, etc.)
+- **Node modules second:** Third-party packages from node_modules (pinia, lodash, axios, etc.)
+- **Project files last:** Start with furthest (@/ alias paths), then relative imports (./), then same directory
+- **Type imports:** Use `import type` for type-only imports, group with their respective categories
+- **ESLint import/order compliance:** Follow standard import ordering rules for consistency and tooling compatibility
+
+```typescript
+// Example import order:
+import { ref, computed } from 'vue';          // 1. Core frameworks
+import { defineStore } from 'pinia';          // 2. Node modules
+import { CONSTANTS } from '@/constants';      // 3. @ alias paths
+import { helper } from '../utils/helper';     // 4. Relative paths
+import type { IUser } from './types';        // 5. Same directory
+```
+
 ### TypeScript Specific
 
 - Prefer `type` over `interface`

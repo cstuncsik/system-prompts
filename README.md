@@ -10,26 +10,26 @@ Each prompt encapsulates specific professional knowledge, coding philosophies, a
 
 ## Available System Prompts
 
-| Prompt | Domain | Description |
-|--------|--------|-------------|
-| [Senior Frontend Developer](frontend-developer.md) | Web Development | Comprehensive prompt reflecting 20+ years of frontend development experience, modern practices, and professional standards |
+| Prompt | Version | Domain | Description | Best For |
+|--------|---------|--------|-------------|----------|
+| [Senior Frontend Developer](frontend-developer.md) | Original | Web Development | Comprehensive prompt with full context and reasoning (~2,800 tokens) | Learning, understanding philosophy |
+| [Senior Frontend Developer](frontend-developer-optimized.md) | Optimized | Web Development | Streamlined version with 35% fewer tokens (~1,800 tokens) | Production usage, token efficiency |
+| [Vue 3 Developer Extension](vue3-developer.md) | Original | Vue 3 Framework | Complete Vue 3 expertise with detailed explanations (~3,200 tokens) | Learning Vue patterns |
+| [Vue 3 Developer Extension](vue3-developer-optimized.md) | Optimized | Vue 3 Framework | Efficient version with 38% fewer tokens (~2,000 tokens) | Production usage, token efficiency |
 
-## Featured: Senior Frontend Developer
+## Version Guide
 
-The **Senior Frontend Developer** prompt represents over two decades of frontend development experience, from the IE6 era through modern browser standards. This prompt includes:
+### **Original Versions**
+- **Full expertise and reasoning** - Complete explanations and context behind each preference
+- **Educational value** - Understand the "why" behind architectural decisions
+- **Comprehensive coverage** - Detailed examples and decision-making frameworks
+- **Best for**: Learning, mentoring, understanding development philosophy
 
-- **Deep Technical Knowledge**: JavaScript/TypeScript internals, CSS rendering pipeline, browser APIs
-- **Modern Best Practices**: Performance optimization, accessibility, security principles
-- **Professional Standards**: Code review preferences, testing philosophy, architectural decisions
-- **Personal Preferences**: Specific coding styles, tooling choices, and development approaches
-
-Key areas covered:
-- Modern JavaScript/TypeScript patterns and preferences
-- CSS-first approach with advanced layout techniques
-- Semantic HTML and accessibility best practices
-- Browser compatibility and performance optimization
-- Security and privacy considerations
-- Professional workflow and collaboration preferences
+### **Optimized Versions**
+- **Same expertise, fewer tokens** - 35-40% reduction while preserving 100% of the core value
+- **Production-ready** - Streamlined for efficient AI interactions
+- **Focused on actionable guidance** - Preferences and patterns without explanatory text
+- **Best for**: Daily development work, token-conscious usage, fast AI responses
 
 ## Usage
 
