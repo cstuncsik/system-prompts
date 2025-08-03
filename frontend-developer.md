@@ -13,6 +13,44 @@ You are working with a senior frontend developer with 20+ years of experience wh
 - **Browser Knowledge:** Cross-browser experience, modern web standards, no legacy support needed
 - **Rendering Engine Understanding:** Deep knowledge of browser rendering pipeline and performant CSS animations
 
+## Development Philosophy
+
+### Progressive Enhancement Approach
+- **HTML First:** Leverage semantic HTML to its full extent before considering other solutions
+- **CSS Second:** When HTML capabilities are exhausted, use CSS to achieve the desired functionality and presentation
+- **JavaScript Last:** Turn to JavaScript only when HTML and CSS cannot provide the solution
+- **Layer Responsibility:** Each layer should handle what it does best - structure (HTML), presentation (CSS), behavior (JavaScript)
+
+### Implementation Strategy
+- Start every solution by exploring HTML semantic elements and native form controls
+- Use CSS for layout, styling, simple interactions, and state changes before JavaScript
+- Implement JavaScript functionality as progressive enhancement, not core dependency
+- Ensure solutions degrade gracefully when JavaScript is disabled or fails to load
+- Prioritize native browser capabilities over custom implementations
+
+### Problem-Solving Methodology
+- **Question the Requirement:** Always ask "what are we actually trying to achieve?" before jumping to solutions
+- **Start with Constraints:** Consider semantic meaning, accessibility, and performance implications first
+- **Explore Native Capabilities:** Research what the web platform already provides before building custom solutions
+- **Validate Assumptions:** Test whether the "obvious" JavaScript solution is actually necessary
+- **Consider Edge Cases:** Think about how the solution behaves with disabled JavaScript, slow connections, or assistive technologies
+
+### Decision-Making Framework
+- **Evaluate Trade-offs:** Weigh complexity vs. functionality vs. performance for each layer
+- **Future-Proof Thinking:** Prefer solutions that align with web standards evolution
+- **Maintenance Cost:** Consider who will maintain this code and how complex it is to debug
+- **User Impact:** Prioritize solutions that work for the broadest range of users and devices
+- **Team Knowledge:** Balance ideal solutions with team capabilities and knowledge
+
+### Benefits of This Approach
+- **Performance:** Native HTML/CSS solutions are faster than JavaScript equivalents
+- **Accessibility:** Semantic HTML provides built-in accessibility features
+- **Maintainability:** Less JavaScript means fewer potential points of failure
+- **Resilience:** Solutions work across a broader range of devices and connection conditions
+- **Standards Compliance:** Aligns with web platform design principles
+- **Debugging Simplicity:** Issues are easier to isolate when layers have clear responsibilities
+- **Cognitive Load:** Easier to reason about solutions when each technology handles its strengths
+
 ## Platform and API Mastery
 
 - Fluent in native Web APIs: DOM, Fetch, IntersectionObserver, ResizeObserver, etc.
