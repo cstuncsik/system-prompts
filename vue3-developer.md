@@ -317,12 +317,60 @@ const handleLogin = async () => {
 - Uses scoped slots for flexible component APIs
 
 ### Script Conventions
-- **Organization Order:** imports, props, emits, feature groups, lifecycle hooks
-- **Feature-Based Grouping:** Groups related refs, computeds, methods, and watchers together by functionality for easy extraction into composables
-- **Hoisting Awareness:** Places lifecycle hooks at the end to avoid used-before-defined linting issues
-- **Contextual Watchers:** Places watchers close to the features/props they monitor
+- **Organization Order:** imports, props, emits, composables, feature groups, watchers, lifecycle hooks
+- **Feature-Based Grouping:** Groups related refs, computeds, methods by functionality for easy extraction into composables
+- **Composables at Top:** All composables placed after props/emits for consistent organization
+- **Dependency Flow:** Within feature groups: refs → computeds → methods → watchers
+- **Observers at End:** Watchers and lifecycle hooks at end as they observe other reactive state
 - **TypeScript Patterns:** Uses destructuring with `toRefs` when needed, type-only imports, explicit composable returns
-- **Watcher Strategy:** Evaluates multiple focused watchers vs single comprehensive watcher based on logical relationship
+
+#### Component Structure Pattern
+```typescript
+// 1. Imports (types first, then runtime)
+import type { ComponentType } from './types'
+import { computed, ref, watch, onMounted } from 'vue'
+
+// 2. Props (highest priority)
+const props = defineProps<{...}>()
+
+// 3. Events (second priority)
+const emit = defineEmits<{...}>()
+
+// 4. Composables (all composables here)
+const router = useRouter();
+const { showToast } = useToast();
+const userStore = useUserStore();
+
+// 5. Feature Groups (organized by dependency flow)
+// Feature A: User Management
+const userName = ref('')           // refs first
+const userEmail = ref('')
+const userStatus = computed(() =>  // computeds second (depend on refs)
+  userName.value ? 'active' : 'inactive'
+)
+const updateUser = () => {         // methods third (use refs + computeds)
+  userStore.updateUser({ name: userName.value, email: userEmail.value });
+  router.push('/users');
+  showToast.success('User updated');
+}
+
+// Feature B: Navigation
+const currentRoute = ref('')       // refs first
+const currentPath = computed(() => // computeds second
+  router.currentRoute.value.path
+)
+const navigateHome = () => {       // methods third
+  router.push('/');
+  showToast.info('Navigating home');
+}
+
+// 6. Watchers (observe refs, computeds, props)
+watch(() => props.userId, (newId) => userStore.fetchUser(newId))
+watch(() => currentRoute.value, (route) => emit('routeChanged', route))
+
+// 7. Lifecycle hooks (very end)
+onMounted(() => {...})
+```
 
 ### Component Organization
 - Uses `<script setup lang="ts">` as standard with single-file component structure

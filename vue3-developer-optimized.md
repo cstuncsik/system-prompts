@@ -235,10 +235,34 @@ const handleLogin = async () => {
 ## Vue 3 Coding Style
 
 ### Script Conventions
-- **Organization Order:** imports, props, emits, feature groups, lifecycle hooks
-- **Feature-Based Grouping:** Related refs, computeds, methods, watchers together for easy composable extraction
-- **Hoisting Awareness:** Lifecycle hooks at end to avoid used-before-defined issues
-- **Contextual Watchers:** Watchers close to features/props they monitor
+- **Organization Order:** imports, props, emits, composables, feature groups, watchers, lifecycle hooks
+- **Feature-Based Grouping:** Related refs, computeds, methods by functionality for easy composable extraction
+- **Dependency Flow:** Within feature groups: refs → computeds → methods
+- **Observers at End:** Watchers and lifecycle hooks at end as they observe other reactive state
+
+```typescript
+// All composables here
+const router = useRouter();
+const { showToast } = useToast();
+const userStore = useUserStore();
+
+// Feature groups (dependency flow: refs → computeds → methods)
+const userName = ref('')           // refs first
+const userStatus = computed(() =>  // computeds second
+  userName.value ? 'active' : 'inactive'
+)
+const updateUser = () => {         // methods third
+  userStore.updateUser({ name: userName.value });
+  router.push('/users');
+  showToast.success('Updated');
+}
+
+// Watchers (observe refs, computeds, props)
+watch(() => props.userId, (newId) => userStore.fetchUser(newId))
+
+// Lifecycle hooks (very end)
+onMounted(() => {...})
+```
 
 ### Component Organization
 - `<script setup lang="ts">` as standard with single-file component structure
