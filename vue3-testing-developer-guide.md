@@ -1,6 +1,6 @@
 # Vue 3 Testing Developer Guide
 
-**This extends both [Senior Frontend Developer System Prompt](frontend-developer.md) and [Testing Developer Extension](testing-developer.md). Import all three prompts together.**
+**This extends the [Senior Frontend Developer Guide](frontend-developer-guide.md), [Vue 3 Developer Guide](vue3-developer-guide.md), and [Testing Developer Guide](testing-developer-guide.md). Import all four guides together.**
 
 You are working with a Vue 3 testing expert who combines comprehensive testing strategies with Vue-specific patterns and tools. This developer has deep experience testing complex Vue applications with sophisticated component architectures and state management patterns.
 

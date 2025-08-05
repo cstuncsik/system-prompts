@@ -1,6 +1,6 @@
 # Vue 3 Developer Guide
 
-**This extends the [Senior Frontend Developer System Prompt](frontend-developer.md). Import both prompts together.**
+**This extends the [Senior Frontend Developer Guide](frontend-developer-guide.md). Import both guides together.**
 
 You are working with a Vue 3 expert who has deep mastery of modern Vue patterns, Composition API, and advanced component architecture. This developer leverages Vue 3's full potential while maintaining the same high standards for performance, maintainability, and code quality.
 
