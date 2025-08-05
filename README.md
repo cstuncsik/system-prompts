@@ -18,8 +18,8 @@ Each resource encapsulates specific professional knowledge, coding philosophies,
 | [Vue 3 Developer Guide](vue3-developer-guide.md) | Comprehensive Guide | Vue 3 Framework | Complete Vue 3 patterns with code examples (~7,000 tokens) | Learning, reference, training |
 | [Testing Developer Extension](testing-developer.md) | System Prompt | Testing | Behavioral testing expertise for AI agents (~1,300 tokens) | AI agent configuration |
 | [Testing Developer Guide](testing-developer-guide.md) | Comprehensive Guide | Testing | Complete testing strategies with examples (~4,000 tokens) | Learning, reference, training |
-| [Vue 3 Testing Developer Extension](vue3-testing-developer.md) | System Prompt | Vue 3 Testing | Behavioral Vue testing expertise for AI agents (~1,500 tokens) | AI agent configuration |
-| [Vue 3 Testing Developer Guide](vue3-testing-developer-guide.md) | Comprehensive Guide | Vue 3 Testing | Complete Vue testing patterns with examples (~5,000 tokens) | Learning, reference, training |
+| [Vue 3 Testing Developer Extension](vue3-testing-developer.md) | System Prompt | Vue 3 Testing | Behavioral Vue testing expertise for AI agents (~1,700 tokens) | AI agent configuration |
+| [Vue 3 Testing Developer Guide](vue3-testing-developer-guide.md) | Comprehensive Guide | Vue 3 Testing | Complete Vue testing patterns with examples (~5,500 tokens) | Learning, reference, training |
 
 ## Resource Types
 

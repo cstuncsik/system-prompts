@@ -288,6 +288,78 @@ test('navigates to user detail', async () => {
 });
 ```
 
+### Reactive Router Mocking (Preferred for Unit Tests)
+- **Warning Elimination:** Eliminates Vue Router console warnings in test output
+- **Reactive Updates:** Route changes trigger component re-renders during tests
+- **Simpler Setup:** No need for memory history or router configuration
+- **Perfect for Unit Tests:** Ideal for testing route-dependent components in isolation
+
+```typescript
+import { reactive, nextTick } from 'vue';
+
+// Setup reactive mock route - eliminates router warnings
+const mockRoute = reactive({
+  params: { id: '123', section: 'profile' },
+  query: { tab: 'details', filter: 'active' },
+  path: '/users/123',
+  name: 'UserDetail'
+});
+
+vi.mock('vue-router', () => ({
+  useRoute: () => mockRoute,
+  useRouter: () => ({
+    push: vi.fn(),
+    replace: vi.fn(),
+    go: vi.fn()
+  }),
+  RouterLink: vi.fn(),
+}));
+
+test('component reacts to route parameter changes', async () => {
+  const { getByText, rerender } = render(UserDetail);
+
+  // Initial state
+  expect(getByText('User: 123')).toBeInTheDocument();
+  expect(getByText('Section: profile')).toBeInTheDocument();
+
+  // Change route params - component reacts automatically
+  mockRoute.params.id = '456';
+  mockRoute.params.section = 'settings';
+  await nextTick();
+
+  expect(getByText('User: 456')).toBeInTheDocument();
+  expect(getByText('Section: settings')).toBeInTheDocument();
+});
+
+test('component reacts to query parameter changes', async () => {
+  const { getByText } = render(TabComponent);
+
+  // Change active tab via query
+  mockRoute.query.tab = 'permissions';
+  await nextTick();
+
+  expect(getByText('Permissions Tab')).toBeInTheDocument();
+});
+
+// Test multiple route changes in sequence
+test('handles complex route transitions', async () => {
+  const { getByText } = render(DynamicComponent);
+
+  // Simulate navigation flow
+  mockRoute.params.id = '789';
+  mockRoute.query.filter = 'inactive';
+  await nextTick();
+
+  expect(getByText('Inactive Users for 789')).toBeInTheDocument();
+
+  // Continue navigation
+  mockRoute.query.filter = 'pending';
+  await nextTick();
+
+  expect(getByText('Pending Users for 789')).toBeInTheDocument();
+});
+```
+
 ## Test Data and Mock Factories
 
 ### Vue-Specific Test Data

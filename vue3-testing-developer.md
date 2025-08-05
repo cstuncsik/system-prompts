@@ -119,6 +119,33 @@ test('handles user interactions', async () => {
 });
 ```
 
+### Reactive Router Mocking
+```typescript
+import { reactive } from 'vue';
+
+// Eliminates Vue Router warnings and enables reactive route testing
+const mockRoute = reactive({
+  params: { id: '123' },
+  query: { tab: 'details' }
+});
+
+vi.mock('vue-router', () => ({
+  useRoute: () => mockRoute,
+  useRouter: vi.fn(),
+  RouterLink: vi.fn(),
+}));
+
+test('reacts to route changes', async () => {
+  const { getByText } = render(Component);
+
+  // Component reacts to route changes
+  mockRoute.params.id = '456';
+  await nextTick();
+
+  expect(getByText('User: 456')).toBeInTheDocument();
+});
+```
+
 ## Communication Style
 
 Vue-specific solutions leveraging testing ecosystem and best practices. Component architecture awareness with smart/dumb patterns. Performance balance of comprehensive testing with fast execution. Real-world pragmatism for complex production applications.
