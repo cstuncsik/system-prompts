@@ -120,6 +120,101 @@ const handleLogin = async () => {
 };
 ```
 
+### Vue Form Handling (Native-First)
+```vue
+<template>
+  <!-- Always use <form> element, not custom click handlers -->
+  <form @submit.prevent="handleSubmit">
+    <!-- Leverage native validation -->
+    <input
+      v-model="email"
+      type="email"
+      required
+      :class="{ invalid: !isEmailValid }"
+    >
+
+    <button
+      type="submit"
+      :disabled="isSubmitting || !isFormValid"
+    >
+      {{ isSubmitting ? 'Submitting...' : 'Submit' }}
+    </button>
+  </form>
+</template>
+
+<script setup>
+const email = ref('');
+const isSubmitting = ref(false);
+
+// Reactive validation building on native
+const isEmailValid = computed(() =>
+  !email.value || /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.value)
+);
+
+const isFormValid = computed(() => email.value && isEmailValid.value);
+
+const handleSubmit = async () => {
+  // Form validation handled by native + reactive
+  if (!isFormValid.value) return;
+
+  isSubmitting.value = true;
+  try {
+    await userStore.submitForm({ email: email.value });
+  } finally {
+    isSubmitting.value = false;
+  }
+};
+</script>
+```
+
+### Accessible Custom Components (Native Delegation)
+```vue
+<template>
+  <!-- Custom Select with Native Delegation -->
+  <div class="custom-select" :class="{ open: isOpen }">
+    <!-- Hidden native select handles events/accessibility -->
+    <select
+      ref="nativeSelect"
+      v-model="selectedValue"
+      @change="handleNativeChange"
+      @focus="handleFocus"
+      @blur="handleBlur"
+      class="sr-only"
+    >
+      <option v-for="option in options" :key="option.value" :value="option.value">
+        {{ option.label }}
+      </option>
+    </select>
+
+    <!-- Custom UI -->
+    <div
+      class="select-display"
+      @click="focusNative"
+      @keydown="handleKeydown"
+      tabindex="-1"
+    >
+      {{ selectedLabel }}
+    </div>
+  </div>
+</template>
+
+<script setup>
+const nativeSelect = ref();
+const isOpen = ref(false);
+
+const focusNative = () => {
+  nativeSelect.value?.focus();
+};
+
+const handleNativeChange = () => {
+  // Native select handles value/events, we just react
+  emit('update:modelValue', selectedValue.value);
+};
+
+// Native handles accessibility, we enhance UI
+</script>
+```
+
 ## Communication Style
 
 Assumes deep Vue 3 knowledge. Focus on advanced patterns and performance implications. Provide Vue 3-specific solutions over generic JavaScript approaches.

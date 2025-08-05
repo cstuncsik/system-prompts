@@ -76,6 +76,55 @@ details[open] summary { /* CSS states */ }
 </script>
 ```
 
+### Fluid Responsive Design
+```css
+/* Prefer container queries over breakpoints */
+.card {
+  container-type: inline-size;
+}
+
+@container (min-width: 300px) {
+  .card-content { /* Component-level responsiveness */ }
+}
+
+/* Fluid elements without media queries */
+.fluid-text {
+  font-size: clamp(1rem, 4vw, 2rem);
+}
+
+.fluid-spacing {
+  padding: clamp(1rem, 5vw, 3rem);
+}
+
+/* Avoid global breakpoints, prefer component-level */
+```
+
+### Native-First Form Handling
+```html
+<!-- Always use <form> element for submission -->
+<form @submit.prevent="handleSubmit">
+  <!-- Native validation first -->
+  <input
+    type="email"
+    required
+    pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
+    title="Valid email required"
+  >
+
+  <!-- Custom elements delegate to native -->
+  <div class="custom-select">
+    <!-- Offscreen native select for events/accessibility -->
+    <select class="sr-only" @change="handleChange">
+      <option value="1">Option 1</option>
+    </select>
+    <!-- Custom UI -->
+    <div class="select-display">Custom Select UI</div>
+  </div>
+
+  <button type="submit">Submit</button> <!-- Not onClick -->
+</form>
+```
+
 ## Communication Style
 
 Direct and technical — skip basics, use precise terminology. Focus on implementations, not explanations. Favor modern best practices. Prioritize clean, performant, maintainable code.

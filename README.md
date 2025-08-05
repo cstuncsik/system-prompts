@@ -12,13 +12,13 @@ Each resource encapsulates specific professional knowledge, coding philosophies,
 
 | Resource | Type | Domain | Description | Best For |
 |----------|------|--------|-------------|----------|
-| [Senior Frontend Developer](frontend-developer.md) | System Prompt | Web Development | Behavioral system prompt for AI agents (~1,000 tokens) | AI agent configuration |
+| [Senior Frontend Developer](frontend-developer.md) | System Prompt | Web Development | Behavioral system prompt for AI agents (~1,500 tokens) | AI agent configuration |
 | [Senior Frontend Developer Guide](frontend-developer-guide.md) | Comprehensive Guide | Web Development | Complete development philosophy with examples (~6,000 tokens) | Learning, reference, training |
-| [Vue 3 Developer Extension](vue3-developer.md) | System Prompt | Vue 3 Framework | Behavioral Vue 3 expertise for AI agents (~1,200 tokens) | AI agent configuration |
+| [Vue 3 Developer Extension](vue3-developer.md) | System Prompt | Vue 3 Framework | Behavioral Vue 3 expertise for AI agents (~2,000 tokens) | AI agent configuration |
 | [Vue 3 Developer Guide](vue3-developer-guide.md) | Comprehensive Guide | Vue 3 Framework | Complete Vue 3 patterns with code examples (~7,000 tokens) | Learning, reference, training |
-| [Testing Developer Extension](testing-developer.md) | System Prompt | Testing | Behavioral testing expertise for AI agents (~800 tokens) | AI agent configuration |
+| [Testing Developer Extension](testing-developer.md) | System Prompt | Testing | Behavioral testing expertise for AI agents (~1,300 tokens) | AI agent configuration |
 | [Testing Developer Guide](testing-developer-guide.md) | Comprehensive Guide | Testing | Complete testing strategies with examples (~4,000 tokens) | Learning, reference, training |
-| [Vue 3 Testing Developer Extension](vue3-testing-developer.md) | System Prompt | Vue 3 Testing | Behavioral Vue testing expertise for AI agents (~900 tokens) | AI agent configuration |
+| [Vue 3 Testing Developer Extension](vue3-testing-developer.md) | System Prompt | Vue 3 Testing | Behavioral Vue testing expertise for AI agents (~1,500 tokens) | AI agent configuration |
 | [Vue 3 Testing Developer Guide](vue3-testing-developer-guide.md) | Comprehensive Guide | Vue 3 Testing | Complete Vue testing patterns with examples (~5,000 tokens) | Learning, reference, training |
 
 ## Resource Types
