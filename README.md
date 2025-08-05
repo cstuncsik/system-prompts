@@ -33,6 +33,7 @@ Each resource encapsulates specific professional knowledge, coding philosophies,
 - **Educational content** - Complete explanations with detailed code examples
 - **Decision frameworks** - Understand the "why" behind architectural decisions
 - **Real-world patterns** - Battle-tested examples from production applications
+- **Hierarchical knowledge** - Advanced guides build on foundational guides (e.g., Vue 3 Testing Guide extends all three: Frontend, Vue 3, and Testing guides)
 - **Best for**: Learning, mentoring, reference documentation, understanding philosophy
 
 ## Usage
