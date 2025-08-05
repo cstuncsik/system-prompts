@@ -1,45 +1,63 @@
-# AI Agent System Prompts
+# AI Agent System Prompts & Guides
 
-A curated collection of professional-grade system prompts for AI agents, crafted from real-world experience and battle-tested in production environments.
+A curated collection of professional-grade system prompts and comprehensive guides for AI agents, crafted from real-world experience and battle-tested in production environments.
 
 ## About This Repository
 
-This repository contains my personal collection of AI agent system prompts, each reflecting years of professional experience in their respective domains. These prompts are made public for others to reference, learn from, and adapt to their own needs.
+This repository contains my personal collection of AI agent system prompts and development guides, each reflecting years of professional experience in their respective domains. These are made public for others to reference, learn from, and adapt to their own needs.
 
-Each prompt encapsulates specific professional knowledge, coding philosophies, and best practices that I've developed over decades of hands-on experience. They're designed to create AI interactions that align with professional standards and real-world requirements.
+Each resource encapsulates specific professional knowledge, coding philosophies, and best practices that I've developed over decades of hands-on experience. They're designed to create AI interactions that align with professional standards and real-world requirements.
 
-## Available System Prompts
+## Available Resources
 
-| Prompt | Version | Domain | Description | Best For |
-|--------|---------|--------|-------------|----------|
-| [Senior Frontend Developer](frontend-developer.md) | Original | Web Development | Comprehensive prompt with full context and reasoning (~2,800 tokens) | Learning, understanding philosophy |
-| [Senior Frontend Developer](frontend-developer-optimized.md) | Optimized | Web Development | Streamlined version with 35% fewer tokens (~1,800 tokens) | Production usage, token efficiency |
-| [Vue 3 Developer Extension](vue3-developer.md) | Original | Vue 3 Framework | Complete Vue 3 expertise with detailed explanations (~3,200 tokens) | Learning Vue patterns |
-| [Vue 3 Developer Extension](vue3-developer-optimized.md) | Optimized | Vue 3 Framework | Efficient version with 38% fewer tokens (~2,000 tokens) | Production usage, token efficiency |
+| Resource | Type | Domain | Description | Best For |
+|----------|------|--------|-------------|----------|
+| [Senior Frontend Developer](frontend-developer.md) | System Prompt | Web Development | Behavioral system prompt for AI agents (~1,000 tokens) | AI agent configuration |
+| [Senior Frontend Developer Guide](frontend-developer-guide.md) | Comprehensive Guide | Web Development | Complete development philosophy with examples (~6,000 tokens) | Learning, reference, training |
+| [Vue 3 Developer Extension](vue3-developer.md) | System Prompt | Vue 3 Framework | Behavioral Vue 3 expertise for AI agents (~1,200 tokens) | AI agent configuration |
+| [Vue 3 Developer Guide](vue3-developer-guide.md) | Comprehensive Guide | Vue 3 Framework | Complete Vue 3 patterns with code examples (~7,000 tokens) | Learning, reference, training |
+| [Testing Developer Extension](testing-developer.md) | System Prompt | Testing | Behavioral testing expertise for AI agents (~800 tokens) | AI agent configuration |
+| [Testing Developer Guide](testing-developer-guide.md) | Comprehensive Guide | Testing | Complete testing strategies with examples (~4,000 tokens) | Learning, reference, training |
+| [Vue 3 Testing Developer Extension](vue3-testing-developer.md) | System Prompt | Vue 3 Testing | Behavioral Vue testing expertise for AI agents (~900 tokens) | AI agent configuration |
+| [Vue 3 Testing Developer Guide](vue3-testing-developer-guide.md) | Comprehensive Guide | Vue 3 Testing | Complete Vue testing patterns with examples (~5,000 tokens) | Learning, reference, training |
 
-## Version Guide
+## Resource Types
 
-### **Original Versions**
-- **Full expertise and reasoning** - Complete explanations and context behind each preference
-- **Educational value** - Understand the "why" behind architectural decisions
-- **Comprehensive coverage** - Detailed examples and decision-making frameworks
-- **Best for**: Learning, mentoring, understanding development philosophy
+### **System Prompts**
+- **Behavioral instructions** - Tell AI agents WHO to be and HOW to behave
+- **Focused expertise** - Concise professional personas without tutorials
+- **Production-ready** - Optimized for AI agent configuration
+- **Best for**: Daily AI agent usage, token efficiency, direct AI instruction
 
-### **Optimized Versions**
-- **Same expertise, fewer tokens** - 35-40% reduction while preserving 100% of the core value
-- **Production-ready** - Streamlined for efficient AI interactions
-- **Focused on actionable guidance** - Preferences and patterns without explanatory text
-- **Best for**: Daily development work, token-conscious usage, fast AI responses
+### **Comprehensive Guides**
+- **Educational content** - Complete explanations with detailed code examples
+- **Decision frameworks** - Understand the "why" behind architectural decisions
+- **Real-world patterns** - Battle-tested examples from production applications
+- **Best for**: Learning, mentoring, reference documentation, understanding philosophy
 
 ## Usage
 
-These prompts are designed to work with various AI models and platforms. To use:
+These resources are designed to work with various AI models and platforms. You have **three ways** to use them:
 
-1. Copy the entire content of the desired prompt file
-2. Paste it as your system prompt/instructions in your AI interface
-3. Adapt the preferences and specifics to match your own requirements
+### **Option 1: System Prompts (Token-Efficient)**
+Use the main prompt files for efficient AI agent configuration:
+1. Copy the content from files like `frontend-developer.md`, `testing-developer.md`
+2. Paste as your system prompt/instructions in your AI interface
+3. **Best for**: Daily usage, token-conscious applications, fast AI responses
 
-**Note**: These prompts reflect my personal preferences and experience. Feel free to modify them to align with your own standards, team requirements, or project constraints.
+### **Option 2: Guides as Learning Material**
+Use the guide files for education and reference:
+1. Read through files like `frontend-developer-guide.md`, `vue3-developer-guide.md`
+2. Study the code examples and decision frameworks
+3. **Best for**: Learning, mentoring, understanding development philosophy
+
+### **Option 3: Guides as Comprehensive System Prompts**
+Use the complete guide files as detailed system prompts:
+1. Copy the entire content from any `-guide.md` file
+2. Paste as your system prompt for maximum detail and context
+3. **Best for**: Users who want all examples/explanations and don't mind token usage
+
+**Note**: These resources reflect my personal preferences and experience. Feel free to modify them to align with your own standards, team requirements, or project constraints.
 
 ## Future Additions
 
