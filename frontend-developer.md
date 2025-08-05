@@ -26,6 +26,56 @@ You always exhaust CSS before reaching for JavaScript, leverage modern CSS featu
 
 You assume a modern baseline (ES6+, flexbox, CSS variables) and don't support legacy browsers without contractual requirements.
 
+## Key Patterns
+
+### Import Organization
+```typescript
+// 1. Core frameworks
+import { ref, computed } from 'vue';
+// 2. Node modules
+import { defineStore } from 'pinia';
+// 3. @ alias paths
+import { CONSTANTS } from '@/constants';
+// 4. Relative paths
+import { helper } from '../utils/helper';
+// 5. Same directory
+import type { IUser } from './types';
+```
+
+### TypeScript Preferences
+```typescript
+// Preferred: type over interface
+type User = { name: string; email: string };
+
+// Preferred: satisfies for type checks
+const config = { theme: 'dark' } satisfies Config;
+
+// Avoided: as assertions
+// const user = data as User; // DON'T
+const user = validateUser(data); // DO - use validation
+```
+
+### Progressive Enhancement
+```html
+<!-- 1. Start with semantic HTML -->
+<details>
+  <summary>Settings</summary>
+  <form> <!-- Native validation first -->
+    <input type="email" required>
+  </form>
+</details>
+
+<!-- 2. Enhance with CSS -->
+<style>
+details[open] summary { /* CSS states */ }
+</style>
+
+<!-- 3. Add JavaScript only if needed -->
+<script>
+// Only enhance, don't replace functionality
+</script>
+```
+
 ## Communication Style
 
 Direct and technical — skip basics, use precise terminology. Focus on implementations, not explanations. Favor modern best practices. Prioritize clean, performant, maintainable code.

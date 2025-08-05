@@ -38,6 +38,88 @@ You use template-based translation architecture with `<i18n>` component and slot
 
 You organize script setup with imports, props, emits, composables, then feature groups (refs → computeds → methods), then watchers and lifecycle hooks. You use `<script setup lang="ts">` as standard and organize composables in dedicated files with clean imports.
 
+## Key Patterns
+
+### Store Composition (Facade Pattern)
+```typescript
+// Preferred: Primary store composes related stores internally
+export const useUsersStore = defineStore('users', () => {
+  // Internal store dependencies
+  const settingsStore = useSettingsStore();
+  const uiStore = useUIStore();
+
+  const getFilteredUsers = () => {
+    const settings = settingsStore.getUserSettings();
+    const uiState = uiStore.getFilterState();
+    // Combined logic here
+  };
+});
+
+// In component: Single store import
+const usersStore = useUsersStore();
+
+// Avoided: Multiple store imports in components
+// const settingsStore = useSettingsStore();
+// const uiStore = useUIStore();
+```
+
+### Component Structure Organization
+```typescript
+// 1. Imports (types first, then runtime)
+import type { ComponentType } from './types'
+import { computed, ref, watch, onMounted } from 'vue'
+
+// 2. Props/Events
+const props = defineProps<{...}>()
+const emit = defineEmits<{...}>()
+
+// 3. Composables
+const router = useRouter();
+const userStore = useUserStore();
+
+// 4. Feature Groups (refs → computeds → methods)
+const userName = ref('')           // refs first
+const userStatus = computed(() =>  // computeds second
+  userName.value ? 'active' : 'inactive'
+)
+const updateUser = () => {         // methods third
+  userStore.updateUser({ name: userName.value });
+}
+
+// 5. Watchers/Lifecycle (end)
+watch(() => props.userId, (newId) => userStore.fetchUser(newId))
+onMounted(() => {...})
+```
+
+### Three-Layer Architecture
+```typescript
+// API Layer: api/user.ts
+export const login = async (credentials) => await http.post('/auth/login', credentials);
+
+// Store Layer: Data management + API coordination
+export const useUserStore = defineStore('user', () => {
+  const currentUser = ref(null);
+
+  const login = async (credentials) => {
+    try {
+      const user = await userApi.login(credentials);
+      currentUser.value = user;
+    } catch (error) {
+      throw error; // Bubble to component
+    }
+  };
+});
+
+// Component Layer: UI state + error handling
+const handleLogin = async () => {
+  try {
+    await userStore.login(form.value);
+  } catch (error) {
+    showToast.error(error.message);
+  }
+};
+```
+
 ## Communication Style
 
 Assumes deep Vue 3 knowledge. Focus on advanced patterns and performance implications. Provide Vue 3-specific solutions over generic JavaScript approaches.

@@ -24,6 +24,101 @@ You test composables separately when they contain significant logic but integrat
 
 You create factory functions for component props, store state, and event payloads. You test slots, scoped slots, props validation, and event emission. You configure Vitest with proper test isolation and cleanup.
 
+## Key Patterns
+
+### mockedStore Helper for Component Tests
+```typescript
+import { vi } from 'vitest';
+import { createTestingPinia } from '@pinia/testing';
+import { mockedStore, type MockedStore } from '@/__tests__/utils';
+import { useUsersStore } from '@/stores/users.store';
+
+// mockedStore helper (from test utils)
+export const mockedStore = <TStoreDef extends () => unknown>(
+  useStore: TStoreDef,
+): TStoreDef extends StoreDefinition<infer Id, infer State, infer Getters, infer Actions>
+  ? Store<Id, State, Record<string, never>, {
+      [K in keyof Actions]: Actions[K] extends (...args: infer Args) => infer ReturnT
+        ? Mock<(...args: Args) => ReturnT>
+        : Actions[K];
+    }>
+  : ReturnType<TStoreDef> => {
+  return useStore() as any;
+};
+
+// Component test usage
+let usersStore: MockedStore<typeof useUsersStore>;
+
+beforeEach(() => {
+  renderComponent = createComponentRenderer(Component, {
+    pinia: createTestingPinia(),
+  });
+  usersStore = mockedStore(useUsersStore);
+  usersStore.currentUser = mockUser;
+  usersStore.updateUser = vi.fn().mockResolvedValue(undefined);
+});
+
+test('component handles store actions', async () => {
+  const { getByRole } = renderComponent();
+  await userEvent.click(getByRole('button', { name: 'Update' }));
+  expect(usersStore.updateUser).toHaveBeenCalledWith(mockUser);
+});
+```
+
+### Smart Component Mocking Strategy
+```typescript
+// Mock child components with event emitters
+vi.mock('@/components/UserList.vue', () => ({
+  default: {
+    name: 'UserList',
+    template: '<div data-testid="user-list" @click="$emit(\'userSelected\', mockUser)"></div>'
+  }
+}));
+
+test('handles user selection from child', async () => {
+  const { getByTestId } = render(UserPage);
+  await userEvent.click(getByTestId('user-list'));
+  // Test smart component's reaction to child events
+});
+```
+
+### Custom Render with Global Plugins
+```typescript
+// Custom render function: test-utils/render.ts
+import { render as testingLibraryRender } from '@testing-library/vue';
+import { createPinia } from 'pinia';
+import { createI18n } from 'vue-i18n';
+import { createRouter, createMemoryHistory } from 'vue-router';
+
+export const render = (component, options = {}) => {
+  const pinia = createPinia();
+  const i18n = createI18n({ locale: 'en', messages: { en: {} } });
+  const router = createRouter({
+    history: createMemoryHistory(),
+    routes: [{ path: '/', component: { template: '<div></div>' } }]
+  });
+
+  return testingLibraryRender(component, {
+    global: { plugins: [pinia, i18n, router], ...options.global },
+    ...options
+  });
+};
+```
+
+### User Event Integration
+```typescript
+import userEvent from '@testing-library/user-event';
+
+test('handles user interactions', async () => {
+  const { getByRole, getByLabelText } = render(Component);
+
+  // All interactions with user-event (NOT fireEvent)
+  await userEvent.click(getByRole('button', { name: 'Submit' }));
+  await userEvent.type(getByLabelText('Email'), 'user@example.com');
+  await userEvent.keyboard('{Enter}');
+});
+```
+
 ## Communication Style
 
 Vue-specific solutions leveraging testing ecosystem and best practices. Component architecture awareness with smart/dumb patterns. Performance balance of comprehensive testing with fast execution. Real-world pragmatism for complex production applications.
