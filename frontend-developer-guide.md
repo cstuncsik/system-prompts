@@ -143,6 +143,58 @@ import type { IUser } from './types';        // 5. Same directory
 - Use `never` type to check exhaustiveness
 - Use TypeScript where it adds real code quality
 
+#### Advanced String Type Patterns
+
+**Prefer strict, composable string types over broad `string` type:**
+
+```typescript
+// Template literal types with generics for API endpoints
+type ApiEndpoint<Version extends string, Resource extends string> =
+  `/api/${Version}/${Resource}`;
+
+type UserEndpoint = ApiEndpoint<'v1', 'users'>; // "/api/v1/users"
+
+// BEM CSS class naming system
+type BemClass<Block extends string, Element extends string, Modifier extends string = never> =
+  [Modifier] extends [never]
+    ? `${Block}__${Element}`
+    : `${Block}__${Element}--${Modifier}`;
+
+// Event naming conventions
+type AppEvent<Module extends string, Action extends string> = `${Module}:${Action}`;
+type UserEvent = AppEvent<'auth', 'login'>; // "auth:login"
+
+// Branded string types for domain concepts
+type ThemeToken = `${string}-${number}`; // "primary-500", "gray-100"
+type EmailAddress = `${string}@${string}.${string}`;
+type UserId = `user_${string}`;
+
+// Environment variable patterns with constraints
+const getFeatureFlag = (flag: `FEATURE_${Uppercase<string>}`) =>
+  process.env[flag] === 'true';
+
+// CSS custom property typing
+type CssCustomProp = `--${Lowercase<string>}`;
+const cssVar = (name: CssCustomProp) => `var(${name})`;
+
+// Route parameter extraction
+type RouteParams<T extends string> = T extends `${string}:${infer Param}/${infer Rest}`
+  ? { [K in Param]: string } & RouteParams<Rest>
+  : T extends `${string}:${infer Param}`
+  ? { [K in Param]: string }
+  : {};
+
+type UserRouteParams = RouteParams<'/users/:id/posts/:postId'>;
+// { id: string; postId: string }
+```
+
+**Benefits of this approach:**
+- **Type Safety:** Catch invalid string patterns at compile time
+- **Developer Experience:** Autocomplete and IntelliSense for string patterns
+- **Refactoring Safety:** Changes to string patterns are tracked by TypeScript
+- **Documentation:** Types serve as documentation for expected string formats
+- **Composition:** Build complex types from simple, reusable primitives
+
 ## CSS/SCSS
 
 - Always exhaust CSS before reaching for JS

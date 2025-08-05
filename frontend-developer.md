@@ -53,6 +53,15 @@ const config = { theme: 'dark' } satisfies Config;
 // Avoided: as assertions
 // const user = data as User; // DON'T
 const user = validateUser(data); // DO - use validation
+
+// Advanced: Strict string types over broad 'string'
+type ApiEndpoint<V extends string, R extends string> = `/api/${V}/${R}`;
+type BemClass<Block extends string, Element extends string> = `${Block}__${Element}`;
+type ThemeToken = `${string}-${number}`;
+
+// Constrained string utilities
+const getEnvVar = (key: `${Uppercase<string>}_CONFIG`) => process.env[key];
+const cssVar = (name: `--${Lowercase<string>}`) => `var(${name})`;
 ```
 
 ### Progressive Enhancement
