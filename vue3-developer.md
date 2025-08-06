@@ -229,13 +229,18 @@ const handleChange = () => {
   left: 0;
   width: 100%;
   height: 100%;
-  /* Accessible hiding - better than opacity: 0 */
+  /* Hidden but clickable */
   padding: 0;
   margin: 0;
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   border: 0;
   cursor: pointer;
+}
+
+.native-overlay:focus {
+  left: -9999px; /* Move offscreen to hide dropdown during keyboard navigation */
+  clip: auto;    /* Remove clipping when offscreen */
 }
 
 .custom-select {
