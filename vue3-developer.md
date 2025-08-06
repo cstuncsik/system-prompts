@@ -229,7 +229,12 @@ const handleChange = () => {
   left: 0;
   width: 100%;
   height: 100%;
-  opacity: 0;
+  /* Accessible hiding - better than opacity: 0 */
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
   cursor: pointer;
 }
 
