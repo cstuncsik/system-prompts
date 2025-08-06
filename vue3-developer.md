@@ -167,49 +167,27 @@ const handleSubmit = async () => {
 </script>
 ```
 
-### Accessible Custom Components (ARIA-First)
+### Accessible Custom Components (Overlay Pattern)
 ```vue
 <template>
-  <!-- Proper ARIA-based select component -->
-  <div class="custom-select">
-    <label :id="labelId" class="select-label">{{ label }}</label>
-
-    <div
-      :id="selectId"
-      role="combobox"
-      :aria-expanded="isOpen"
-      :aria-labelledby="labelId"
-      :aria-activedescendant="activeOptionId"
-      tabindex="0"
-      class="select-trigger"
-      @click="toggleOpen"
-      @keydown="handleKeydown"
+  <!-- Native select overlaid on custom UI - best of both worlds -->
+  <div class="select-container">
+    <!-- Invisible native select handles all accessibility/keyboard -->
+    <select
+      v-model="selectedValue"
+      class="native-overlay"
+      @change="handleChange"
     >
-      {{ selectedLabel || placeholder }}
-    </div>
-
-    <ul
-      v-show="isOpen"
-      :id="listboxId"
-      role="listbox"
-      :aria-labelledby="labelId"
-      class="select-options"
-    >
-      <li
-        v-for="(option, index) in options"
-        :key="option.value"
-        :id="`${selectId}-option-${index}`"
-        role="option"
-        :aria-selected="option.value === selectedValue"
-        :class="{
-          selected: option.value === selectedValue,
-          active: index === activeIndex
-        }"
-        @click="selectOption(option)"
-      >
+      <option v-for="option in options" :key="option.value" :value="option.value">
         {{ option.label }}
-      </li>
-    </ul>
+      </option>
+    </select>
+
+    <!-- Custom visual design -->
+    <div class="custom-select">
+      <span class="selected-text">{{ selectedLabel || placeholder }}</span>
+      <ChevronDownIcon class="chevron" />
+    </div>
   </div>
 </template>
 
@@ -217,7 +195,6 @@ const handleSubmit = async () => {
 const props = defineProps<{
   options: Array<{ value: string; label: string }>;
   modelValue?: string;
-  label: string;
   placeholder?: string;
 }>();
 
@@ -225,64 +202,54 @@ const emit = defineEmits<{
   'update:modelValue': [value: string];
 }>();
 
-const isOpen = ref(false);
-const activeIndex = ref(-1);
+const selectedValue = computed({
+  get: () => props.modelValue,
+  set: (value) => emit('update:modelValue', value)
+});
 
-// Generate unique IDs for ARIA relationships
-const selectId = `select-${Math.random().toString(36).substr(2, 9)}`;
-const labelId = `${selectId}-label`;
-const listboxId = `${selectId}-listbox`;
-
-const selectedValue = computed(() => props.modelValue);
 const selectedLabel = computed(() =>
   props.options.find(opt => opt.value === selectedValue.value)?.label
 );
 
-const activeOptionId = computed(() =>
-  activeIndex.value >= 0 ? `${selectId}-option-${activeIndex.value}` : undefined
-);
-
-const toggleOpen = () => {
-  isOpen.value = !isOpen.value;
-  if (isOpen.value) activeIndex.value = -1;
-};
-
-const selectOption = (option: { value: string; label: string }) => {
-  emit('update:modelValue', option.value);
-  isOpen.value = false;
-  activeIndex.value = -1;
-};
-
-const handleKeydown = (event: KeyboardEvent) => {
-  switch (event.key) {
-    case 'Enter':
-    case ' ':
-      event.preventDefault();
-      if (!isOpen.value) {
-        toggleOpen();
-      } else if (activeIndex.value >= 0) {
-        selectOption(props.options[activeIndex.value]);
-      }
-      break;
-    case 'Escape':
-      isOpen.value = false;
-      activeIndex.value = -1;
-      break;
-    case 'ArrowDown':
-      event.preventDefault();
-      if (!isOpen.value) {
-        toggleOpen();
-      } else {
-        activeIndex.value = Math.min(activeIndex.value + 1, props.options.length - 1);
-      }
-      break;
-    case 'ArrowUp':
-      event.preventDefault();
-      activeIndex.value = Math.max(activeIndex.value - 1, 0);
-      break;
-  }
+const handleChange = () => {
+  // Native select handles the value change automatically via v-model
+  // Add any custom logic here if needed
 };
 </script>
+
+<style scoped>
+.select-container {
+  position: relative;
+  display: inline-block;
+}
+
+.native-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.custom-select {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+}
+
+.chevron {
+  width: 1rem;
+  height: 1rem;
+  transition: transform 0.2s;
+}
+</style>
 ```
 
 ## Communication Style
