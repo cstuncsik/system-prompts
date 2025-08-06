@@ -167,51 +167,121 @@ const handleSubmit = async () => {
 </script>
 ```
 
-### Accessible Custom Components (Native Delegation)
+### Accessible Custom Components (ARIA-First)
 ```vue
 <template>
-  <!-- Custom Select with Native Delegation -->
-  <div class="custom-select" :class="{ open: isOpen }">
-    <!-- Hidden native select handles events/accessibility -->
-    <select
-      ref="nativeSelect"
-      v-model="selectedValue"
-      @change="handleNativeChange"
-      @focus="handleFocus"
-      @blur="handleBlur"
-      class="sr-only"
-    >
-      <option v-for="option in options" :key="option.value" :value="option.value">
-        {{ option.label }}
-      </option>
-    </select>
+  <!-- Proper ARIA-based select component -->
+  <div class="custom-select">
+    <label :id="labelId" class="select-label">{{ label }}</label>
 
-    <!-- Custom UI -->
     <div
-      class="select-display"
-      @click="focusNative"
+      :id="selectId"
+      role="combobox"
+      :aria-expanded="isOpen"
+      :aria-labelledby="labelId"
+      :aria-activedescendant="activeOptionId"
+      tabindex="0"
+      class="select-trigger"
+      @click="toggleOpen"
       @keydown="handleKeydown"
-      tabindex="-1"
     >
-      {{ selectedLabel }}
+      {{ selectedLabel || placeholder }}
     </div>
+
+    <ul
+      v-show="isOpen"
+      :id="listboxId"
+      role="listbox"
+      :aria-labelledby="labelId"
+      class="select-options"
+    >
+      <li
+        v-for="(option, index) in options"
+        :key="option.value"
+        :id="`${selectId}-option-${index}`"
+        role="option"
+        :aria-selected="option.value === selectedValue"
+        :class="{
+          selected: option.value === selectedValue,
+          active: index === activeIndex
+        }"
+        @click="selectOption(option)"
+      >
+        {{ option.label }}
+      </li>
+    </ul>
   </div>
 </template>
 
 <script setup>
-const nativeSelect = ref();
+const props = defineProps<{
+  options: Array<{ value: string; label: string }>;
+  modelValue?: string;
+  label: string;
+  placeholder?: string;
+}>();
+
+const emit = defineEmits<{
+  'update:modelValue': [value: string];
+}>();
+
 const isOpen = ref(false);
+const activeIndex = ref(-1);
 
-const focusNative = () => {
-  nativeSelect.value?.focus();
+// Generate unique IDs for ARIA relationships
+const selectId = `select-${Math.random().toString(36).substr(2, 9)}`;
+const labelId = `${selectId}-label`;
+const listboxId = `${selectId}-listbox`;
+
+const selectedValue = computed(() => props.modelValue);
+const selectedLabel = computed(() =>
+  props.options.find(opt => opt.value === selectedValue.value)?.label
+);
+
+const activeOptionId = computed(() =>
+  activeIndex.value >= 0 ? `${selectId}-option-${activeIndex.value}` : undefined
+);
+
+const toggleOpen = () => {
+  isOpen.value = !isOpen.value;
+  if (isOpen.value) activeIndex.value = -1;
 };
 
-const handleNativeChange = () => {
-  // Native select handles value/events, we just react
-  emit('update:modelValue', selectedValue.value);
+const selectOption = (option: { value: string; label: string }) => {
+  emit('update:modelValue', option.value);
+  isOpen.value = false;
+  activeIndex.value = -1;
 };
 
-// Native handles accessibility, we enhance UI
+const handleKeydown = (event: KeyboardEvent) => {
+  switch (event.key) {
+    case 'Enter':
+    case ' ':
+      event.preventDefault();
+      if (!isOpen.value) {
+        toggleOpen();
+      } else if (activeIndex.value >= 0) {
+        selectOption(props.options[activeIndex.value]);
+      }
+      break;
+    case 'Escape':
+      isOpen.value = false;
+      activeIndex.value = -1;
+      break;
+    case 'ArrowDown':
+      event.preventDefault();
+      if (!isOpen.value) {
+        toggleOpen();
+      } else {
+        activeIndex.value = Math.min(activeIndex.value + 1, props.options.length - 1);
+      }
+      break;
+    case 'ArrowUp':
+      event.preventDefault();
+      activeIndex.value = Math.max(activeIndex.value - 1, 0);
+      break;
+  }
+};
 </script>
 ```
 
